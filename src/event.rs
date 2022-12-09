@@ -257,19 +257,19 @@ impl<T: Clone> Clone for Event<'static, T> {
 }
 
 impl<'a, T> Event<'a, T> {
-    pub fn map_nonuser_event<U>(self) -> Result<Event<'a, U>, Event<'a, T>> {
+    pub fn map_nonuser_event<U>(self) -> Option<Event<'a, U>> {
         use self::Event::*;
         match self {
-            UserEvent(_) => Err(self),
-            WindowEvent { window_id, event } => Ok(WindowEvent { window_id, event }),
-            DeviceEvent { device_id, event } => Ok(DeviceEvent { device_id, event }),
-            NewEvents(cause) => Ok(NewEvents(cause)),
-            MainEventsCleared => Ok(MainEventsCleared),
-            RedrawRequested(wid) => Ok(RedrawRequested(wid)),
-            RedrawEventsCleared => Ok(RedrawEventsCleared),
-            LoopDestroyed => Ok(LoopDestroyed),
-            Suspended => Ok(Suspended),
-            Resumed => Ok(Resumed),
+            UserEvent(_) => None,
+            WindowEvent { window_id, event } => Some(WindowEvent { window_id, event }),
+            DeviceEvent { device_id, event } => Some(DeviceEvent { device_id, event }),
+            NewEvents(cause) => Some(NewEvents(cause)),
+            MainEventsCleared => Some(MainEventsCleared),
+            RedrawRequested(wid) => Some(RedrawRequested(wid)),
+            RedrawEventsCleared => Some(RedrawEventsCleared),
+            LoopDestroyed => Some(LoopDestroyed),
+            Suspended => Some(Suspended),
+            Resumed => Some(Resumed),
         }
     }
 
