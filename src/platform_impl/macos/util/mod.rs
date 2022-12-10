@@ -7,7 +7,10 @@ pub(crate) use self::r#async::*;
 use core_graphics::display::CGDisplay;
 use objc2::foundation::{CGFloat, NSNotFound, NSPoint, NSRange, NSRect, NSUInteger};
 
-use crate::dpi::LogicalPosition;
+use crate::{
+    dpi::LogicalPosition,
+    keyboard::{Key, ModifiersState},
+};
 
 // Replace with `!` once stable
 #[derive(Debug)]
@@ -62,4 +65,14 @@ pub fn window_position(position: LogicalPosition<f64>) -> NSPoint {
         position.x as CGFloat,
         CGDisplay::main().pixels_high() as CGFloat - position.y as CGFloat,
     )
+}
+
+pub fn key_to_modifier(key: &Key<'static>) -> ModifiersState {
+    match key {
+        Key::Alt => ModifiersState::ALT,
+        Key::Control => ModifiersState::CONTROL,
+        Key::Super => ModifiersState::SUPER,
+        Key::Shift => ModifiersState::SHIFT,
+        _ => unreachable!(),
+    }
 }

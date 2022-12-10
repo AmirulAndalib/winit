@@ -39,7 +39,7 @@ impl<'a, Never> Event<'a, Never> {
         self.map_nonuser_event()
             // `Never` can't be constructed, so the `UserEvent` variant can't
             // be present here.
-            .unwrap_or_else(|_| unreachable!())
+            .unwrap_or_else(|| unreachable!())
     }
 }
 
